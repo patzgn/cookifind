@@ -5,6 +5,7 @@ using CookiFind.Application.Services.Interfaces.Recipes;
 using CookiFind.Application.Services.Interfaces.Scrapers;
 using CookiFind.Application.Services.Recipes;
 using CookiFind.Application.Services.Scrapers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CookiFind.Application;
@@ -13,21 +14,21 @@ public static class ApplicationServiceCollectionExtensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddSingleton<IRecipeRepository, RecipeRepository>();
-        services.AddSingleton<IRecipeCategoryRepository, RecipeCategoryRepository>();
+        services.AddScoped<IRecipeRepository, RecipeRepository>();
+        services.AddScoped<IRecipeCategoryRepository, RecipeCategoryRepository>();
 
-        services.AddSingleton<IRecipeCategoryService, RecipeCategoryService>();
+        services.AddScoped<IRecipeCategoryService, RecipeCategoryService>();
 
-        services.AddSingleton<IRecipeScraper, RecipeScraper>();
-        services.AddSingleton<IScraper, CookidooScraper>();
+        services.AddScoped<IRecipeScraper, RecipeScraper>();
+        services.AddScoped<IScraper, CookidooScraper>();
 
         return services;
     }
 
     public static IServiceCollection AddDatabase(this IServiceCollection services, string connectionString)
     {
-        services.AddSingleton<IDbConnectionFactory>(_ => new NpgsqlConnectionFactory(connectionString));
-        services.AddSingleton<DbInitializer>();
+        services.AddDbContext<CookiFindDbContext>(options =>
+            options.UseNpgsql(connectionString));
 
         return services;
     }

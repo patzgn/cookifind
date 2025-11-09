@@ -1,0 +1,10 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+services:
+  cookifindapi:
+    image: cookifindapi
+    build:
+      context: .
+      dockerfile: CookiFind.Api/Dockerfile
+    ports:
+      - 5034:5034
