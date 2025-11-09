@@ -1,0 +1,45 @@
+@using CookiFind.Web.Blazor.Models.Recipes
+@rendermode InteractiveServer
+
+<MudItem>
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">@Recipe.Name</MudText>
+                <MudText Typo="Typo.overline">@Recipe.CategoryName</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudToggleIconButton @bind-Toggled="_toggled"
+                                     Icon="@Icons.Material.Filled.FavoriteBorder"
+                                     Color="Color.Dark"
+                                     ToggledIcon="@Icons.Material.Filled.Favorite"
+                                     ToggledColor="Color.Error"/>
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText Typo="Typo.body2">Calories:</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="ml-4">@Recipe.Calories</MudText>
+
+            <MudText Typo="Typo.body2">Protein:</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="ml-4">@Recipe.Proteins</MudText>
+
+            <MudText Typo="Typo.body2">Carbohydrates:</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="ml-4">@Recipe.Carbohydrates</MudText>
+
+            <MudText Typo="Typo.body2">Fats:</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Primary" Class="ml-4">@Recipe.Fats</MudText>
+        </MudCardContent>
+        <MudCardActions>
+            <MudLink Href="@Recipe.CookidooPath">
+                Cookidoo
+            </MudLink>
+        </MudCardActions>
+    </MudCard>
+</MudItem>
+
+@code {
+
+    [Parameter, EditorRequired] public required Recipe Recipe { get; set; }
+
+    private bool _toggled = false;
+}

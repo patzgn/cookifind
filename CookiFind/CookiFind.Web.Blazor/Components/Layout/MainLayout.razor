@@ -1,0 +1,45 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="CookiFindTheme"/>
+<MudPopoverProvider/>
+@* <MudDialogProvider/> *@
+@* <MudSnackbarProvider/> *@
+
+<MudLayout>
+    <AppBar/>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="my-5">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code
+{
+    private MudTheme CookiFindTheme = new MudTheme()
+    {
+        PaletteLight = new PaletteLight
+        {
+            Primary = "#007E63",
+            Secondary = "#FFC107",
+            Background = "#FAFAF7",
+            Surface = "#FFFFFF",
+            AppbarBackground = "#FFFFFF",
+            DrawerBackground = "#FFFFFF",
+            DrawerText = "#212121",
+            DrawerIcon = "#007E63",
+            Success = "#4CAF50",
+            Warning = "#FF9800",
+            Error = "#F44336",
+            Info = "#2196F3",
+            TextPrimary = "#212121",
+            TextSecondary = "#757575"
+        }
+    };
+}

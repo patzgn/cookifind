@@ -1,0 +1,22 @@
+@page "/recipes"
+
+@using CookiFind.Web.Blazor.Models.Recipes
+
+<MudGrid Justify="Justify.Center" Spacing="5">
+    <RecipeCard Recipe="_recipe"/>
+</MudGrid>
+
+@code {
+
+    private Recipe _recipe = new Recipe
+    {
+        Name = "nazwa przepisu",
+        CategoryName = "kategoria",
+        CookidooPath = "https://cookidoo.pl",
+        Proteins = 10,
+        Calories = 523,
+        Carbohydrates = 23,
+        Fats = 5,
+    };
+
+}

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.1.66"/>
+        <PackageReference Include="AngleSharp" Version="1.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4"/>
+        <PackageReference Include="Microsoft.Playwright" Version="1.49.0"/>
+        <PackageReference Include="Npgsql" Version="9.0.3"/>
+        <PackageReference Include="Selenium.WebDriver" Version="4.28.0"/>
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="132.0.6834.11000"/>
+    </ItemGroup>
+
+</Project>

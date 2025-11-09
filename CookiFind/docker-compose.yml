@@ -1,0 +1,58 @@
+services:
+  
+  db:
+    image: postgres:latest
+    container_name: cookifind-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: CookiFindDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+      - "4444:4444"
+    shm_size: 2g
+
+  cookifind.api:
+    container_name: cookifind-api
+    build:
+      context: .
+      dockerfile: CookiFind.Api/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - Database__ConnectionString=Host=db;Port=5432;Database=CookiFindDB;Username=admin;Password=admin
+
+  cookifind.web.blazor:
+    container_name: cookifind-web-blazor
+    build:
+      context: .
+      dockerfile: CookiFind.Web.Blazor/Dockerfile
+    ports:
+      - "5002:5002"
+    depends_on:
+      - cookifind.api
+    environment:
+      - ASPNETCORE_URLS=http://+:5002
+
+  cookifind.web.react:
+    container_name: cookifind-web-react
+    build:
+      context: ./CookiFind.Web.React
+    ports:
+      - "3000:80"
+    depends_on:
+      - cookifind.api
+
+volumes:
+  db_data:

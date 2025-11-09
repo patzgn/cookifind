@@ -1,34 +1,22 @@
-using CookiFind.Api.Data;
-using CookiFind.Api.Endpoints.Recipes;
-using CookiFind.Api.Extensions;
-using CookiFind.Api.Models.Domain.Users;
+using CookiFind.Api.Endpoints;
+using CookiFind.Application;
+using CookiFind.Application.Database;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.AddCookiFindDbContext();
-builder.AddCookiFindRepositories();
-builder.AddCookiFindServices();
-builder.AddCookidooScraper();
-
-builder.Services.AddHttpClient();
+var config = builder.Configuration;
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<CookiFindUser>()
-    .AddEntityFrameworkStores<CookiFindDbContext>();
-
 builder.Services.AddOpenApi();
+
+builder.Services.AddHttpClient();
+
+builder.Services.AddApplication();
+builder.Services.AddDatabase(config["Database:ConnectionString"]!);
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<CookiFindDbContext>();
-    await DataSeeder.SeedAsync(context);
-}
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -37,9 +25,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGroup("api/v1/")
-    .MapRecipeEndpoints()
-    .MapRecipeCategoriesEndpoints()
-    .MapIdentityApi<CookiFindUser>();
+app.MapApiEndpoints();
+
+var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
+await dbInitializer.InitializeAsync();
 
 app.Run();
